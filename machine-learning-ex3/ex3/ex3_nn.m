@@ -83,6 +83,6 @@ for i = 1:m
     
     % Pause
     fprintf('Program paused. Press enter to continue.\n');
-    pause;
+    %pause;
 end
 
