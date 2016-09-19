@@ -38,10 +38,18 @@ grad = zeros(size(theta));
 
 
 
+hthetatemp = X * theta;
+htheta = sigmoid(hthetatemp);
+theta1 = [0 ; theta(2:size(theta), :)];
 
+sumall_1 = -y .* log(htheta) -  (1-y) .* log(1-htheta);
+sumall_2 = (lambda / (2*m)) * sum (theta1 .^ 2);
+%sumall = (htheta - y) .^ 2;
+J = ((1/m) * sum(sumall_1)) + sumall_2;
 
-
-
+sumgrad = X' * (htheta - y);
+%grad = ((1/m) * sum(sumgrad) ) + (lambda/m) .* theta1;
+grad = ( sumgrad + lambda*theta1 ) ./ m;
 
 
 
