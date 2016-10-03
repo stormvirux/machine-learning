@@ -74,18 +74,13 @@ a1 = [ones(m,1) X];
 z2 = a1 * Theta1';
 a2 = [ones(size(z2),1) sigmoid(z2)];
 h = a3 = sigmoid(a2 * Theta2');
-J = (1/m)*sum(sum((-Y .* log(h))-((1-Y) .* log(1-h)),2))
+ans1 = sum(sum(Theta1(:,2:end) .^ 2,2));
+ans2 = sum(sum(Theta2(:,2:end) .^ 2,2));
+regterm = (lambda *  (ans1+ans2))/(2*m);
 
-ans1 = sum(sum(Theta1 .^ 2,2));
-ans2 = sum(sum(Theta2 .^ 2,2));
+J = ((1/m)*sum(sum((-Y .* log(h))-((1-Y) .* log(1-h)),2)) )+ regterm ;
 
-regterm = lambda * (0.5/m) *  (ans1+ans2);
-J = J+ regterm;
-
-display(ans1+ans2);
-
-
-
+display(J);
 
 
 
