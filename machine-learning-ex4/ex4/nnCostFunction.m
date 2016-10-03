@@ -69,24 +69,40 @@ for i=1:m
 end
 
 
-
+% calculates the hypothesis
 a1 = [ones(m,1) X];
 z2 = a1 * Theta1';
 a2 = [ones(size(z2),1) sigmoid(z2)];
 h = a3 = sigmoid(a2 * Theta2');
+
+% calcilates the regulaization term
 ans1 = sum(sum(Theta1(:,2:end) .^ 2,2));
 ans2 = sum(sum(Theta2(:,2:end) .^ 2,2));
 regterm = (lambda *  (ans1+ans2))/(2*m);
 
+% Final Cost function
 J = ((1/m)*sum(sum((-Y .* log(h))-((1-Y) .* log(1-h)),2)) )+ regterm ;
 
-display(J);
+
+% loop based claculation of back-propagation
+sigma3 = a3 - Y;
+sigma2 = (sigma3 * Theta2) .* sigmoidGradient([ones(size(z2, 1), 1) z2]);
+sigma2 = sigma2(:, 2:end);
+
+
+%Calculate the error
+delta1 = sigma2' * a1;
+delta2 = sigma3' * a2;
 
 
 
 
+p1 = (lambda/m)*[zeros(size(Theta1, 1), 1) Theta1(:, 2:end)];
+p2 = (lambda/m)*[zeros(size(Theta2, 1), 1) Theta2(:, 2:end)];
 
 
+Theta1_grad = (delta1 ./ m) +p1;
+Theta2_grad = (delta2 ./ m) +p2;
 
 
 
